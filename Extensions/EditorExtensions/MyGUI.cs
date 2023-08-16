@@ -1,6 +1,7 @@
 ﻿#if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
+using System;
 
 namespace MyBox.EditorTools
 {
@@ -115,7 +116,35 @@ namespace MyBox.EditorTools
 			GUI.color = defColor;
 		}
 
-		#endregion
-	}
+        #endregion
+
+        #region SearchablePopup
+
+        /// <summary>
+        /// A popup window that displays a list of options and may use a search string to filter the displayed content
+        /// </summary>
+        /// <param name="activatorRect">Rectangle of the button that triggered the popup</param>
+        /// <param name="options">List of strings to choose from</param>
+        /// <param name="current">Index of the currently selected string</param>
+        /// <param name="onSelectionMade">Callback to trigger when a choice is made</param>
+        public static void SearchablePopup(Rect activatorRect, string[] options, int current, Action<int> onSelectionMade)
+        {
+            Internal.SearchablePopup.Show(activatorRect, options, current, onSelectionMade);
+        }
+
+        /// <summary>
+        /// A popup window that displays a list of options and may use a search string to filter the displayed content
+        /// </summary>
+        /// <param name="options">List of strings to choose from</param>
+        /// <param name="current">Index of the currently selected string</param>
+        /// <param name="onSelectionMade">Callback to trigger when a choice is made</param>
+        public static void SearchablePopup(string[] options, int current, Action<int> onSelectionMade)
+        {
+            var position = new Rect(Event.current.mousePosition, Vector2.zero);
+            Internal.SearchablePopup.Show(position, options, current, onSelectionMade);
+        }
+
+        #endregion
+    }
 }
 #endif
