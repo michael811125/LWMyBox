@@ -1,8 +1,8 @@
 {
-"name": "com.domybest.mybox",
+"name": "com.domybest.lwmybox",
 "version": "1.7.0",
-"displayName": "MyBox",
-"description": "MyBox is a set of attributes, tools and extensions for Unity",
+"displayName": "LWMyBox",
+"description": "Lightweight MyBox is a set of attributes, tools and extensions for Unity",
 
 "unity": "2018.3",
 "dependencies": {

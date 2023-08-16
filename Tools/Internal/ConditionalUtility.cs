@@ -44,13 +44,13 @@ namespace MyBox.Internal
 		}
 		
 		private static void LogFieldNotFound(SerializedProperty property, string field) => WarningsPool.LogWarning(property,
-			$"Conditional Attribute is trying to check field {field.Colored(Colors.brown)} which is not present",
+			$"Conditional Attribute is trying to check field {field} which is not present",
 			property.serializedObject.targetObject);
 		private static void LogFieldNotFound(UnityEngine.Object owner, string field) => WarningsPool.LogWarning(owner,
-			$"Conditional Attribute is trying to check field {field.Colored(Colors.brown)} which is not present",
+			$"Conditional Attribute is trying to check field {field} which is not present",
 			owner);
 		public static void LogMethodNotFound(UnityEngine.Object owner, string method) => WarningsPool.LogWarning(owner,
-			$"Conditional Attribute is trying to invoke method {method.Colored(Colors.brown)} " +
+			$"Conditional Attribute is trying to invoke method {method} " +
 			"which is missing or not with a bool return type",
 			owner);
 		
