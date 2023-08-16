@@ -24,14 +24,50 @@ namespace MyBox.EditorTools
 			public static readonly Color Brown = new Color(.7f, .5f, .2f, .6f);
 		}
 
-		#endregion
+        #endregion
 
-		#region Draw Coloured lines and boxes
+        #region Editor Icons
 
-		/// <summary>
-		/// Draw Separator within GuiLayout
-		/// </summary>
-		public static void Separator()
+        public static class EditorIcons
+        {
+            public static GUIContent Plus => EditorGUIUtility.IconContent("Toolbar Plus");
+            public static GUIContent Minus => EditorGUIUtility.IconContent("Toolbar Minus");
+            public static GUIContent Refresh => EditorGUIUtility.IconContent("Refresh");
+
+            public static GUIContent ConsoleInfo => EditorGUIUtility.IconContent("console.infoicon.sml");
+            public static GUIContent ConsoleWarning => EditorGUIUtility.IconContent("console.warnicon.sml");
+            public static GUIContent ConsoleError => EditorGUIUtility.IconContent("console.erroricon.sml");
+
+            public static GUIContent Check => EditorGUIUtility.IconContent("FilterSelectedOnly");
+
+            public static GUIContent Dropdown => EditorGUIUtility.IconContent("icon dropdown");
+
+            public static GUIContent EyeOn => EditorGUIUtility.IconContent("d_VisibilityOn");
+            public static GUIContent EyeOff => EditorGUIUtility.IconContent("d_VisibilityOff");
+            public static GUIContent Zoom => EditorGUIUtility.IconContent("d_ViewToolZoom");
+
+            public static GUIContent Help => EditorGUIUtility.IconContent("_Help");
+            public static GUIContent Favourite => EditorGUIUtility.IconContent("Favorite");
+            public static GUIContent Label => EditorGUIUtility.IconContent("FilterByLabel");
+
+            public static GUIContent Settings => EditorGUIUtility.IconContent("d_Settings");
+            public static GUIContent SettingsPopup => EditorGUIUtility.IconContent("_Popup");
+            public static GUIContent SettingsMixer => EditorGUIUtility.IconContent("Audio Mixer");
+
+            public static GUIContent Circle => EditorGUIUtility.IconContent("TestNormal");
+            public static GUIContent CircleYellow => EditorGUIUtility.IconContent("TestInconclusive");
+            public static GUIContent CircleDotted => EditorGUIUtility.IconContent("TestIgnored");
+            public static GUIContent CircleRed => EditorGUIUtility.IconContent("TestFailed");
+        }
+
+        #endregion
+
+        #region Draw Coloured lines and boxes
+
+        /// <summary>
+        /// Draw Separator within GuiLayout
+        /// </summary>
+        public static void Separator()
 		{
 			var color = GUI.color;
 
