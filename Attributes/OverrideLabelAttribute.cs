@@ -28,7 +28,7 @@ namespace MyBox.Internal
 
 		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
 		{
-			if (property.isArray) WarningsPool.LogCollectionsNotSupportedWarning(property, nameof(OverrideLabelAttribute));
+			if (property.isArray && property.propertyType != SerializedPropertyType.String) WarningsPool.LogCollectionsNotSupportedWarning(property, nameof(OverrideLabelAttribute));
 			
 			label.text = ((OverrideLabelAttribute)attribute).NewLabel;
 

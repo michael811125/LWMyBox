@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.1.2] - 2021-08-18
+- Fixed OverrideLabel filter detect string is an array warning issue.
+
 ## [1.1.1] - 2021-08-18
 - Fixed ButtonClicker on ScriptableObjects bug error.
 
