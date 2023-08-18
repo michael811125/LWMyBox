@@ -82,7 +82,7 @@ namespace MyBox.Internal
                 if (targetType != null) method.Invoke(target.GetType().GetField(targetTypeInstanceValueName).GetValue(target), null);
                 else method.Invoke(target, null);
             }
-            if (target is not ScriptableObject) EditorGUILayout.Space(0.5f);
+            if (!(target is ScriptableObject)) EditorGUILayout.Space(0.5f);
         }
     }
 }
