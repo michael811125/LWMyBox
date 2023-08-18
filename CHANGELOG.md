@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.1.1] - 2021-08-18
+- Fixed ButtonClicker on ScriptableObjects bug error.
+
 ## [1.1.0] - 2021-08-18
 - Added ButtonClickerAttribute.
 

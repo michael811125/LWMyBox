@@ -58,12 +58,11 @@ namespace MyBox.Internal
                 return;
             }
 
-            EditorGUILayout.Space(0.5f);
             if (GUI.Button(new Rect(position.x, position.y, position.width, position.height + 2.5f), !string.IsNullOrEmpty(buttonName) ? buttonName : method.Name))
             {
                 method.Invoke(target, null);
             }
-            EditorGUILayout.Space(0.5f);
+            if (target is not ScriptableObject) EditorGUILayout.Space(0.5f);
         }
     }
 }
