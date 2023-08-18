@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.1.3] - 2021-08-18
+- Modified ButtonClicker can supports target class method invoke.
+
 ## [1.1.2] - 2021-08-18
 - Fixed OverrideLabel filter detect string is an array warning issue.
 

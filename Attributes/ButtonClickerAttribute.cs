@@ -11,16 +11,33 @@ namespace MyBox
 
     public class ButtonClickerAttribute : PropertyAttribute
     {
-        public string ButtonName { get; }
+        public System.Type TargetType { get; }
+        public string TargetTypeInstanceValueName { get; }
         public string MethodName { get; }
+        public string ButtonName { get; }
 
         public ButtonClickerAttribute(string methodName)
         {
             MethodName = methodName;
         }
 
+        public ButtonClickerAttribute(System.Type targetType, string targetTypeInstanceValueName, string methodName)
+        {
+            TargetType = targetType;
+            TargetTypeInstanceValueName = targetTypeInstanceValueName;
+            MethodName = methodName;
+        }
+
         public ButtonClickerAttribute(string methodName, string buttonName)
         {
+            MethodName = methodName;
+            ButtonName = buttonName;
+        }
+
+        public ButtonClickerAttribute(System.Type targetType, string targetTypeInstanceValueName, string methodName, string buttonName)
+        {
+            TargetType = targetType;
+            TargetTypeInstanceValueName = targetTypeInstanceValueName;
             MethodName = methodName;
             ButtonName = buttonName;
         }
@@ -37,10 +54,12 @@ namespace MyBox.Internal
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
+            System.Type targetType = (attribute as ButtonClickerAttribute).TargetType;
+            string targetTypeInstanceValueName = (attribute as ButtonClickerAttribute).TargetTypeInstanceValueName;
             string methodName = (attribute as ButtonClickerAttribute).MethodName;
             string buttonName = (attribute as ButtonClickerAttribute).ButtonName;
             Object target = property.serializedObject.targetObject;
-            System.Type type = target.GetType();
+            System.Type type = targetType != null ? targetType : target.GetType();
             System.Reflection.MethodInfo method = type.GetMethod(methodName);
 
             if (method == null)
@@ -60,7 +79,8 @@ namespace MyBox.Internal
 
             if (GUI.Button(new Rect(position.x, position.y, position.width, position.height + 2.5f), !string.IsNullOrEmpty(buttonName) ? buttonName : method.Name))
             {
-                method.Invoke(target, null);
+                if (targetType != null) method.Invoke(target.GetType().GetField(targetTypeInstanceValueName).GetValue(target), null);
+                else method.Invoke(target, null);
             }
             if (target is not ScriptableObject) EditorGUILayout.Space(0.5f);
         }
