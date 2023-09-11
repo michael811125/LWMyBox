@@ -15,16 +15,10 @@ namespace MyBox
         public string TargetTypeInstanceValueName { get; }
         public string MethodName { get; }
         public string ButtonName { get; }
+        public string ButtonColorHex { get; }
 
         public ButtonClickerAttribute(string methodName)
         {
-            MethodName = methodName;
-        }
-
-        public ButtonClickerAttribute(System.Type targetType, string targetTypeInstanceValueName, string methodName)
-        {
-            TargetType = targetType;
-            TargetTypeInstanceValueName = targetTypeInstanceValueName;
             MethodName = methodName;
         }
 
@@ -34,12 +28,35 @@ namespace MyBox
             ButtonName = buttonName;
         }
 
+        public ButtonClickerAttribute(string methodName, string buttonName, string buttonColorHex)
+        {
+            MethodName = methodName;
+            ButtonName = buttonName;
+            ButtonColorHex = buttonColorHex;
+        }
+
+        public ButtonClickerAttribute(System.Type targetType, string targetTypeInstanceValueName, string methodName)
+        {
+            TargetType = targetType;
+            TargetTypeInstanceValueName = targetTypeInstanceValueName;
+            MethodName = methodName;
+        }
+
         public ButtonClickerAttribute(System.Type targetType, string targetTypeInstanceValueName, string methodName, string buttonName)
         {
             TargetType = targetType;
             TargetTypeInstanceValueName = targetTypeInstanceValueName;
             MethodName = methodName;
             ButtonName = buttonName;
+        }
+
+        public ButtonClickerAttribute(System.Type targetType, string targetTypeInstanceValueName, string methodName, string buttonName, string buttonColorHex)
+        {
+            TargetType = targetType;
+            TargetTypeInstanceValueName = targetTypeInstanceValueName;
+            MethodName = methodName;
+            ButtonName = buttonName;
+            ButtonColorHex = buttonColorHex;
         }
     }
 }
@@ -58,6 +75,7 @@ namespace MyBox.Internal
             string targetTypeInstanceValueName = (attribute as ButtonClickerAttribute).TargetTypeInstanceValueName;
             string methodName = (attribute as ButtonClickerAttribute).MethodName;
             string buttonName = (attribute as ButtonClickerAttribute).ButtonName;
+            string buttonColorHex = (attribute as ButtonClickerAttribute).ButtonColorHex;
             Object target = property.serializedObject.targetObject;
             System.Type type = targetType != null ? targetType : target.GetType();
             System.Reflection.MethodInfo method = type.GetMethod(methodName);
@@ -77,11 +95,15 @@ namespace MyBox.Internal
                 return;
             }
 
+            Color bc = GUI.backgroundColor;
+            if (!string.IsNullOrEmpty(buttonColorHex) && ColorUtility.TryParseHtmlString(buttonColorHex, out Color color)) GUI.backgroundColor = color;
             if (GUI.Button(new Rect(position.x, position.y, position.width, position.height + 2.5f), !string.IsNullOrEmpty(buttonName) ? buttonName : method.Name))
             {
                 if (targetType != null) method.Invoke(target.GetType().GetField(targetTypeInstanceValueName).GetValue(target), null);
                 else method.Invoke(target, null);
             }
+            GUI.backgroundColor = bc;
+
             if (!(target is ScriptableObject)) EditorGUILayout.Space(0.5f);
         }
     }

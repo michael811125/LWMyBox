@@ -1,15 +1,18 @@
 # Changelog
 
-## [1.1.3] - 2021-08-18
+## [1.1.4] - 2023-09-11
+- Added colorHex for ButtonClickerAttribute.
+
+## [1.1.3] - 2023-08-18
 - Modified ButtonClicker can supports target class method invoke.
 
-## [1.1.2] - 2021-08-18
+## [1.1.2] - 2023-08-18
 - Fixed OverrideLabel filter detect string is an array warning issue.
 
-## [1.1.1] - 2021-08-18
+## [1.1.1] - 2023-08-18
 - Fixed ButtonClicker on ScriptableObjects bug error.
 
-## [1.1.0] - 2021-08-18
+## [1.1.0] - 2023-08-18
 - Added ButtonClickerAttribute.
 
 ---
