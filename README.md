@@ -22,9 +22,6 @@ Add https://github.com/michael811125/LWMyBox.git to Package Manager
 
 ### ButtonClicker
 
-![img_01](https://github.com/michael811125/LWMyBox/assets/30960759/f4addb4e-0002-4708-a10e-201021f35736)
-![img_02](https://github.com/michael811125/LWMyBox/assets/30960759/caa9d0cd-7be0-43a7-9334-b63936017942)
-
 ```C#
 [CreateAssetMenu]
 public class OuterClass : ScriptableObject
@@ -33,7 +30,7 @@ public class OuterClass : ScriptableObject
     public class InnerClass
     {
         // InnerClass ButtonClicker
-        [ButtonClicker(typeof(InnerClass), "innerClass", nameof(InnerClassMethod), "Print InnerClass Vlaue")]
+        [ButtonClicker(typeof(InnerClass), "innerClass", nameof(InnerClassMethod), "Print InnerClass Value")]
         public bool invoke;
         public int value = 20;
 
@@ -47,7 +44,7 @@ public class OuterClass : ScriptableObject
     public InnerClass innerClass = new InnerClass();
 
     // OuterClass ButtonClicker
-    [ButtonClicker(nameof(OuterClassMethod), "Print OuterClass Vlaue")]
+    [ButtonClicker(nameof(OuterClassMethod), "Print OuterClass Value")]
     public bool invoke;
     public int value = 10;
 
@@ -59,8 +56,6 @@ public class OuterClass : ScriptableObject
 ```
 
 ### ProgressBar
-
-![screenshot_03](https://github.com/michael811125/LWMyBox/assets/30960759/fe53b5c4-28a3-4f57-bf79-bbdb85ecc8fd)
 
 ```C#
     [ProgressBar("Health", 500)]
