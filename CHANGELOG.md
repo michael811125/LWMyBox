@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.5] - 2024-02-06
+- Ref [NaughtyAttributes](https://github.com/dbrizov/NaughtyAttributes/tree/master)
+  - Added ShowAssetPreviewAttribute.
+  - Added EnumFlagsAttribute.
+  - Added ProgressBarAttribute.
+- Added DisplayInspectorAttribute.
+- Added FoldoutAttribute.
+
 ## [1.1.4] - 2023-09-11
 - Added colorHex for ButtonClickerAttribute.
 
