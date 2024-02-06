@@ -2,6 +2,8 @@
 
 Keep only commonly used attributes, improve Unity Editor compilation efficiency.
 
+Partial reference to [NaughtyAttributes](https://github.com/dbrizov/NaughtyAttributes/tree/master)
+
 ---
 
 ## Install via git URL
