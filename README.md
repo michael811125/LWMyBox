@@ -72,6 +72,21 @@ public class OuterClass : ScriptableObject
     }
 ```
 
+### ShowAssetPreview
+
+![screenshot_07](https://github.com/michael811125/LWMyBox/assets/30960759/5d806b12-8f7d-45c0-a1cd-20ce33fa7ca9)
+
+```C#
+    [ShowAssetPreview]
+    public GameObject previewGo;
+
+    [ShowAssetPreview(TextAnchor.MiddleCenter)]
+    public Material previewMat1;
+
+    [ShowAssetPreview(128, 128, TextAnchor.MiddleLeft)]
+    public Material previewMat2;
+```
+
 ### ProgressBar
 
 ![screenshot_05](https://github.com/michael811125/LWMyBox/assets/30960759/d4f46914-9ba7-4e4c-a1ca-64ab3ded1496)
