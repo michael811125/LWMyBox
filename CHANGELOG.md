@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.0] - 2024-02-07
+- Ref [NaughtyAttributes](https://github.com/dbrizov/NaughtyAttributes/tree/master)
+  - Added CurveRangeAttribute.
+  - Added ResizableTextAreaAttribute.
+- Added ButtonMethodAttribute.
+- Added UnityObjectEditor.
+- Modified DisplayInspectorAttribute.
+
 ## [1.1.5] - 2024-02-06
 - Ref [NaughtyAttributes](https://github.com/dbrizov/NaughtyAttributes/tree/master)
   - Added ShowAssetPreviewAttribute.

@@ -22,10 +22,12 @@ namespace MyBox.Internal
 {
     using EditorTools;
     using UnityEditor;
+    using static UnityEngine.GraphicsBuffer;
 
     [CustomPropertyDrawer(typeof(DisplayInspectorAttribute))]
     public class DisplayInspectorAttributeDrawer : PropertyDrawer
     {
+        private ButtonMethodHandler _buttonMethods;
         private EditorPrefsBool _foldout;
 
         private readonly Dictionary<Object, SerializedObject> _targets = new Dictionary<Object, SerializedObject>();
@@ -77,6 +79,8 @@ namespace MyBox.Internal
             }
             if (property.objectReferenceValue == null) return;
 
+            if (_buttonMethods == null) _buttonMethods = new ButtonMethodHandler(property.objectReferenceValue);
+
             if (displayScript) position.y += position.height + 4;
             var startY = position.y - 2;
             float startX = position.x;
@@ -105,11 +109,26 @@ namespace MyBox.Internal
                 position.y += position.height + 4;
             }
 
+            if (!_buttonMethods.TargetMethods.IsNullOrEmpty())
+            {
+                foreach (var method in _buttonMethods.TargetMethods)
+                {
+                    var offsetY = 2.5f;
+                    position.height = EditorGUIUtility.singleLineHeight + offsetY;
+                    Color bc = GUI.backgroundColor;
+                    if (!string.IsNullOrEmpty(method.ButtonColorHex) && ColorUtility.TryParseHtmlString(method.ButtonColorHex, out Color color)) GUI.backgroundColor = color;
+                    if (GUI.Button(position, !string.IsNullOrEmpty(method.ButtonName) ? method.ButtonName : method.Name)) _buttonMethods.Invoke(method.Method);
+                    GUI.backgroundColor = bc;
+                    position.y += position.height + offsetY;
+                }
+            }
+
             var bgRect = position;
             bgRect.y = startY;
             bgRect.x = startX - 12;
             bgRect.width = 11;
             bgRect.height = position.y - startY;
+            if (_buttonMethods.Amount > 0) bgRect.height += 5;
 
             DrawColouredRect(bgRect, new Color(.6f, .6f, .8f, .5f));
 
@@ -135,6 +154,7 @@ namespace MyBox.Internal
             bool displayScript = ((DisplayInspectorAttribute)attribute).DisplayScript;
             if (notValidType || property.objectReferenceValue == null || (displayScript && !IsFolded(property))) return base.GetPropertyHeight(property, label);
 
+            if (_buttonMethods == null) _buttonMethods = new ButtonMethodHandler(property.objectReferenceValue);
             float height = displayScript ? EditorGUI.GetPropertyHeight(property) + 4 : 0;
 
             var target = GetTargetSO(property.objectReferenceValue);
@@ -152,6 +172,11 @@ namespace MyBox.Internal
                 height += EditorGUI.GetPropertyHeight(propertyObject, expandedReorderable) + 4;
             }
 
+            if (_buttonMethods.Amount > 0)
+            {
+                var offsetY = 2.5f;
+                height += 10 + _buttonMethods.Amount * (EditorGUIUtility.singleLineHeight + offsetY);
+            }
             return height;
         }
 

@@ -35,62 +35,6 @@ namespace MyBox.Internal
     using System.Reflection;
     using UnityEditor;
 
-    [CanEditMultipleObjects]
-    [CustomEditor(typeof(UnityEngine.MonoBehaviour), true)]
-    public class FoldoutAttributeMonoEditor : Editor
-    {
-        private FoldoutAttributeHandler _foldout;
-
-        private void OnEnable()
-        {
-            if (target == null) return;
-            _foldout = new FoldoutAttributeHandler(target, serializedObject);
-        }
-
-        private void OnDisable()
-        {
-            _foldout?.OnDisable();
-        }
-
-        public override void OnInspectorGUI()
-        {
-            if (_foldout != null)
-            {
-                _foldout.Update();
-                if (!_foldout.OverrideInspector) base.OnInspectorGUI();
-                else _foldout.OnInspectorGUI();
-            }
-        }
-    }
-
-    [CanEditMultipleObjects]
-    [CustomEditor(typeof(UnityEngine.ScriptableObject), true)]
-    public class FoldoutAttributeSOEditor : Editor
-    {
-        private FoldoutAttributeHandler _foldout;
-
-        private void OnEnable()
-        {
-            if (target == null) return;
-            _foldout = new FoldoutAttributeHandler(target, serializedObject);
-        }
-
-        private void OnDisable()
-        {
-            _foldout?.OnDisable();
-        }
-
-        public override void OnInspectorGUI()
-        {
-            if (_foldout != null)
-            {
-                _foldout.Update();
-                if (!_foldout.OverrideInspector) base.OnInspectorGUI();
-                else _foldout.OnInspectorGUI();
-            }
-        }
-    }
-
     public class FoldoutAttributeHandler
     {
         private readonly Dictionary<string, CacheFoldProp> _cacheFoldouts = new Dictionary<string, CacheFoldProp>();
