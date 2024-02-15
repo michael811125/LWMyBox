@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.2.1] - 2024-02-15
+- Modified ProgressBarAttribute (MaxValueName).
+
 ## [1.2.0] - 2024-02-07
 - Ref [NaughtyAttributes](https://github.com/dbrizov/NaughtyAttributes/tree/master)
   - Added CurveRangeAttribute.

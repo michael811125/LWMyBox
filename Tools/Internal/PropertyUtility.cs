@@ -48,6 +48,35 @@ namespace MyBox.Internal
             return obj;
         }
 
+        /// <summary>
+        /// Gets the object that the property is a member of
+        /// </summary>
+        /// <param name="property"></param>
+        /// <returns></returns>
+        public static object GetTargetObjectWithProperty(SerializedProperty property)
+        {
+            string path = property.propertyPath.Replace(".Array.data[", "[");
+            object obj = property.serializedObject.targetObject;
+            string[] elements = path.Split('.');
+
+            for (int i = 0; i < elements.Length - 1; i++)
+            {
+                string element = elements[i];
+                if (element.Contains("["))
+                {
+                    string elementName = element.Substring(0, element.IndexOf("["));
+                    int index = Convert.ToInt32(element.Substring(element.IndexOf("[")).Replace("[", "").Replace("]", ""));
+                    obj = GetValue_Imp(obj, elementName, index);
+                }
+                else
+                {
+                    obj = GetValue_Imp(obj, element);
+                }
+            }
+
+            return obj;
+        }
+
         private static object GetValue_Imp(object source, string name)
         {
             if (source == null)

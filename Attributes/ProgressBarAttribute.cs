@@ -15,6 +15,7 @@ namespace MyBox
 
         public string Name { get; private set; }
         public float MaxValue { get; set; }
+        public string MaxValueName { get; private set; }
         public string ColorHex { get; }
 
         public ProgressBarAttribute(string name, float maxValue, string colorHex = _DEFAULT_COLOR_HEX)
@@ -23,12 +24,20 @@ namespace MyBox
             MaxValue = maxValue;
             ColorHex = colorHex;
         }
+
+        public ProgressBarAttribute(string name, string maxValueName, string colorHex = _DEFAULT_COLOR_HEX)
+        {
+            Name = name;
+            MaxValueName = maxValueName;
+            ColorHex = colorHex;
+        }
     }
 }
 
 #if UNITY_EDITOR
 namespace MyBox.Internal
 {
+    using System.Reflection;
     using UnityEditor;
     using UnityEngine;
 
@@ -51,22 +60,32 @@ namespace MyBox.Internal
             ProgressBarAttribute progressBarAttribute = attribute as ProgressBarAttribute;
             var value = property.propertyType == SerializedPropertyType.Integer ? property.intValue : property.floatValue;
             var valueFormatted = property.propertyType == SerializedPropertyType.Integer ? value.ToString() : string.Format("{0:0.00}", value);
-            var maxValue = progressBarAttribute.MaxValue;
+            var maxValue = GetMaxValue(property, progressBarAttribute);
 
-            var fillPercentage = value / CastToFloat(maxValue);
-            var barLabel = (!string.IsNullOrEmpty(progressBarAttribute.Name) ? "[" + progressBarAttribute.Name + "] " : "") + valueFormatted + "/" + maxValue;
-            ColorUtility.TryParseHtmlString(progressBarAttribute.ColorHex, out Color barColor);
-            var labelColor = Color.white;
-
-            Rect barRect = new Rect()
+            if (maxValue != null && IsNumber(maxValue))
             {
-                x = position.x,
-                y = position.y,
-                width = position.width,
-                height = EditorGUIUtility.singleLineHeight
-            };
+                var fillPercentage = value / CastToFloat(maxValue);
+                var barLabel = (!string.IsNullOrEmpty(progressBarAttribute.Name) ? "[" + progressBarAttribute.Name + "] " : "") + valueFormatted + "/" + maxValue;
+                ColorUtility.TryParseHtmlString(progressBarAttribute.ColorHex, out Color barColor);
+                var labelColor = Color.white;
 
-            DrawBar(barRect, Mathf.Clamp01(fillPercentage), barLabel, barColor, labelColor);
+                Rect barRect = new Rect()
+                {
+                    x = position.x,
+                    y = position.y,
+                    width = position.width,
+                    height = EditorGUIUtility.singleLineHeight
+                };
+
+                DrawBar(barRect, Mathf.Clamp01(fillPercentage), barLabel, barColor, labelColor);
+            }
+            else
+            {
+                GUIStyle style = new GUIStyle();
+                style.normal.textColor = Color.red;
+                string message = $"The provided dynamic max value for the progress bar is not correct. Please check if the '{nameof(progressBarAttribute.MaxValueName)}' is correct, or the return type is float/int";
+                GUI.Label(position, message, style);
+            }
 
             EditorGUI.EndProperty();
         }
@@ -79,6 +98,40 @@ namespace MyBox.Internal
         protected float GetPropertyHeight(SerializedProperty property)
         {
             return EditorGUI.GetPropertyHeight(property, includeChildren: true);
+        }
+
+        private object GetMaxValue(SerializedProperty property, ProgressBarAttribute progressBarAttribute)
+        {
+            if (string.IsNullOrEmpty(progressBarAttribute.MaxValueName))
+            {
+                return progressBarAttribute.MaxValue;
+            }
+            else
+            {
+                object target = PropertyUtility.GetTargetObjectWithProperty(property);
+
+                FieldInfo valuesFieldInfo = ReflectionUtility.GetField(target, progressBarAttribute.MaxValueName);
+                if (valuesFieldInfo != null)
+                {
+                    return valuesFieldInfo.GetValue(target);
+                }
+
+                PropertyInfo valuesPropertyInfo = ReflectionUtility.GetProperty(target, progressBarAttribute.MaxValueName);
+                if (valuesPropertyInfo != null)
+                {
+                    return valuesPropertyInfo.GetValue(target);
+                }
+
+                MethodInfo methodValuesInfo = ReflectionUtility.GetMethod(target, progressBarAttribute.MaxValueName);
+                if (methodValuesInfo != null &&
+                    (methodValuesInfo.ReturnType == typeof(float) || methodValuesInfo.ReturnType == typeof(int)) &&
+                    methodValuesInfo.GetParameters().Length == 0)
+                {
+                    return methodValuesInfo.Invoke(target, null);
+                }
+
+                return null;
+            }
         }
 
         private void DrawBar(Rect rect, float fillPercent, string label, Color barColor, Color labelColor)
@@ -116,6 +169,11 @@ namespace MyBox.Internal
         {
             bool isNumber = property.propertyType == SerializedPropertyType.Float || property.propertyType == SerializedPropertyType.Integer;
             return isNumber;
+        }
+
+        private bool IsNumber(object obj)
+        {
+            return (obj is float) || (obj is int);
         }
 
         private float CastToFloat(object obj)
