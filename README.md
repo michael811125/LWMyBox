@@ -89,7 +89,7 @@ public class OuterClass : ScriptableObject
 
 ### ProgressBar
 
-![screenshot_05](https://github.com/michael811125/LWMyBox/assets/30960759/d4f46914-9ba7-4e4c-a1ca-64ab3ded1496)
+![screenshot_05](https://github.com/michael811125/LWMyBox/assets/30960759/4f877a3c-cb0f-4db7-865c-f701a761f602)
 
 ```C#
     [ProgressBar("Health", 500)]
@@ -97,6 +97,10 @@ public class OuterClass : ScriptableObject
 
     [ProgressBar("Energy", 500, "#ffcc42")]
     public float energy = 440;
+
+    [ProgressBar("Magic", nameof(maxMagic), "#c660ff")]
+    public float magic = 150;
+    public float maxMagic = 336;
 ```
 
 ### CurveRange
