@@ -22,9 +22,9 @@ namespace MyBox.Internal
     using UnityEngine;
 
     [CustomPropertyDrawer(typeof(EnumFlagsAttribute))]
-    public class EnumFlagsPropertyDrawer : PropertyDrawer
+    public class EnumFlagsPropertyDrawer : PropertyDrawerBase
     {
-        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        protected override void OnSubGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             EditorGUI.BeginProperty(position, label, property);
 

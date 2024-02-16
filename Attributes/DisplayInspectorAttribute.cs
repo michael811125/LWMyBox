@@ -22,10 +22,9 @@ namespace MyBox.Internal
 {
     using EditorTools;
     using UnityEditor;
-    using static UnityEngine.GraphicsBuffer;
 
     [CustomPropertyDrawer(typeof(DisplayInspectorAttribute))]
-    public class DisplayInspectorAttributeDrawer : PropertyDrawer
+    public class DisplayInspectorAttributeDrawer : PropertyDrawerBase
     {
         private ButtonMethodHandler _buttonMethods;
         private EditorPrefsBool _foldout;
@@ -46,7 +45,7 @@ namespace MyBox.Internal
             return target;
         }
 
-        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        protected override void OnSubGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             bool notValidType = property.propertyType != SerializedPropertyType.ObjectReference;
             if (notValidType)

@@ -72,14 +72,14 @@ namespace MyBox.Internal
     using UnityEditor;
 
     [CustomPropertyDrawer(typeof(RangeVectorAttribute))]
-    public class RangeVectorAttributeDrawer : PropertyDrawer
+    public class RangeVectorAttributeDrawer : PropertyDrawerBase
     {
         private RangeVectorAttribute Attribute => attribute as RangeVectorAttribute;
         private float ClampedX(float value) => Mathf.Clamp(value, Attribute.min.x, Attribute.max.x);
         private float ClampedY(float value) => Mathf.Clamp(value, Attribute.min.y, Attribute.max.y);
         private float ClampedZ(float value) => Mathf.Clamp(value, Attribute.min.z, Attribute.max.z);
 
-        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        protected override void OnSubGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             var valueChanged = HandleChanges(position, property, label);
             if (valueChanged || GUI.changed) property.serializedObject.ApplyModifiedProperties();
@@ -120,8 +120,8 @@ namespace MyBox.Internal
                 }
                 return false;
             }
-            
-            
+
+
             if (property.propertyType == SerializedPropertyType.Vector3)
             {
                 var val = EditorGUI.Vector3Field(position, label, property.vector3Value);
@@ -136,7 +136,7 @@ namespace MyBox.Internal
                 }
                 return false;
             }
-            
+
             if (property.propertyType == SerializedPropertyType.Vector3Int)
             {
                 var val = EditorGUI.Vector3IntField(position, label, property.vector3IntValue);
@@ -151,7 +151,7 @@ namespace MyBox.Internal
                 }
                 return false;
             }
-            
+
             DisplayWarning("should be used with Vector2/3 or Vector2/3Int");
             return false;
 

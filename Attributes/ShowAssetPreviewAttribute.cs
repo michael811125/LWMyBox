@@ -42,11 +42,11 @@ namespace MyBox.Internal
     using UnityEngine;
 
     [CustomPropertyDrawer(typeof(ShowAssetPreviewAttribute))]
-    public class ShowAssetPreviewPropertyDrawer : PropertyDrawer
+    public class ShowAssetPreviewPropertyDrawer : PropertyDrawerBase
     {
         private static readonly float _offsetY = 5f;
 
-        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        protected override void OnSubGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             EditorGUI.BeginProperty(position, label, property);
 

@@ -67,9 +67,9 @@ namespace MyBox.Internal
     using UnityEditor;
 
     [CustomPropertyDrawer(typeof(ButtonClickerAttribute))]
-    public class ButtonClickerAttributeDrawer : PropertyDrawer
+    public class ButtonClickerAttributeDrawer : PropertyDrawerBase
     {
-        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        protected override void OnSubGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             System.Type targetType = (attribute as ButtonClickerAttribute).TargetType;
             string targetTypeInstanceValueName = (attribute as ButtonClickerAttribute).TargetTypeInstanceValueName;

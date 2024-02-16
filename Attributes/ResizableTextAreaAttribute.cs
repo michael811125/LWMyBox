@@ -23,7 +23,7 @@ namespace MyBox.Internal
     using UnityEngine;
 
     [CustomPropertyDrawer(typeof(ResizableTextAreaAttribute))]
-    public class ResizableTextAreaPropertyDrawer : PropertyDrawer
+    public class ResizableTextAreaPropertyDrawer : PropertyDrawerBase
     {
         private Vector2 _scrollPos;
 
@@ -37,7 +37,7 @@ namespace MyBox.Internal
             return EditorGUI.GetPropertyHeight(property, includeChildren: true);
         }
 
-        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        protected override void OnSubGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             EditorGUI.BeginProperty(position, label, property);
 

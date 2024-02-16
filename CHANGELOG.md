@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.2] - 2024-02-16
+- Ref [NaughtyAttributes](https://github.com/dbrizov/NaughtyAttributes/tree/master)
+  - Added InfoBoxAttribute.
+  - Added OnValueChangedAttribute.
+  - Added DropdownAttribute.
+- Modified SeparatorAttribute can change color and thickness.
+- Modified DefinedValuesAttribute.
+
 ## [1.2.1] - 2024-02-15
 - Modified ProgressBarAttribute (MaxValueName).
 

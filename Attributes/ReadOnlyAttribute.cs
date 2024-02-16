@@ -16,7 +16,7 @@ namespace MyBox
 
         public ReadOnlyAttribute(params string[] fieldToCheck) : base(fieldToCheck)
         { }
-        
+
         public ReadOnlyAttribute(bool useMethod, string method, bool inverse = false) : base(useMethod, method, inverse)
         { }
     }
@@ -28,14 +28,14 @@ namespace MyBox.Internal
     using UnityEditor;
 
     [CustomPropertyDrawer(typeof(ReadOnlyAttribute))]
-    public class ReadOnlyAttributeDrawer : PropertyDrawer
+    public class ReadOnlyAttributeDrawer : PropertyDrawerBase
     {
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
             return EditorGUI.GetPropertyHeight(property, label, true);
         }
 
-        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        protected override void OnSubGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             if (!(attribute is ReadOnlyAttribute conditional)) return;
 
