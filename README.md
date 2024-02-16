@@ -111,6 +111,31 @@ public class OuterClass : ScriptableObject
     public AnimationCurve curve2;
 ```
 
+### Separator
+
+![screenshot_08](https://github.com/michael811125/LWMyBox/assets/30960759/4c274885-e503-4349-a2e8-74fcb82bbf9c)
+
+```C#
+    [Separator("GameObject / Component")]
+    public Transform Target;
+    [ConditionalField(nameof(Target))] public float TargetSpeed;
+    [ConditionalField(nameof(Target), inverse: true)] public float Speed;
+
+    [Separator("Bool", "#acff5a", 1.25f)]
+    public bool Teleport;
+    [ConditionalField(nameof(Teleport))] public float TeleportationDelay;
+
+    [Separator("String")]
+    public string Hello;
+    [ConditionalField(nameof(Hello), false, "Hello")] public string HelloWorld = "World! :)";
+    [ConditionalField(nameof(Hello))] public string HelloHint = "Print \"Hello\"!";
+
+    [Separator(2, "#e2ff5a")]
+    public AIState State = AIState.None;
+    [ConditionalField(nameof(State), false, AIState.Walk)] public float WalkSpeed;
+    [ConditionalField(nameof(State), false, AIState.Idle)] public float IdleTime;
+```
+
 ---
 
 ## Testing
